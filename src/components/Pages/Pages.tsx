@@ -61,7 +61,7 @@ const Pages = () => {
   }, [])
   return (
     <Routes>
-      {/*<Route path={"/"} element={<Navigate to={PATH.converter} />} />*/}
+      <Route path={"/"} element={<Navigate to={PATH.converter} />} />
       <Route path={PATH.converter} element={
         <Converter
           onChangeInputHandler={onChangeInputHandler}
