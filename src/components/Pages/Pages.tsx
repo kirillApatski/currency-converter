@@ -45,7 +45,11 @@ const Pages = () => {
   }
 
   useEffect(() => {
-    dispatchState(saveResultSum(Number(inputValue) * currencyRate))
+    let finishSum = Number(inputValue) * currencyRate
+    if(state.currentCurrency === 'RUB'){
+      finishSum = finishSum / 100
+    }
+    dispatchState(saveResultSum(finishSum))
   }, [currencyRate, inputValue])
 
   useEffect(() => {
