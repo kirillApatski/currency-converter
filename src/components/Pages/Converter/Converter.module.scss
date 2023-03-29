@@ -1,0 +1,59 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  h2 {
+    font-size: 50px;
+    margin-bottom: 50px;
+  }
+  .converterContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 15px 10px 15px #727272;
+    background-color: #dcdcdc;
+    .title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+    .currencyBox {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      input {
+        padding: 5px 10px;
+        outline: none;
+        border: 1px solid #000;
+        border-radius: 10px;
+        background-color: #fcf1c5;
+      }
+      select {
+        background-color: #fcf1c5;
+        outline: none;
+        border: 1px solid #000;
+        border-radius: 10px;
+        height: 35px;
+      }
+    }
+  }
+  .resultBox {
+    background-color: #fcf1c5;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 300px;
+    width: 100%;
+
+    text-align: center;
+    h3 {
+      font-size: 30px;
+    }
+  }
+}
