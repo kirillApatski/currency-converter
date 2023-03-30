@@ -11,6 +11,7 @@ export type CurrencyState = {
   currencies: Array<CurrencyType>;
   currentCurrency: string
   resultSum: number
+  baseCurrency: string
 };
 
 export const currencyReducer = (state: CurrencyState, action: ActionsType): CurrencyState => {

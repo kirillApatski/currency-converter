@@ -20,7 +20,8 @@ export const PATH = {
 const initialState: CurrencyState = {
   currencies: [],
   currentCurrency: 'USD',
-  resultSum: 0
+  resultSum: 0,
+  baseCurrency: 'BYN'
 };
 
 const Pages = () => {
@@ -57,10 +58,10 @@ const Pages = () => {
   useEffect(() => {
     currencyAPI.getCurrency().then(res => {
       const resultData = res.data.filter((currency: CurrencyType) =>
+        currency.Cur_Abbreviation === "UAH" ||
         currency.Cur_Abbreviation === 'PLN' ||
         currency.Cur_Abbreviation === 'RUB' ||
         currency.Cur_Abbreviation === 'EUR' ||
-        currency.Cur_Abbreviation === "UAH" ||
         currency.Cur_Abbreviation === 'USD')
       dispatchState(saveCurrencyData(resultData))
     })
@@ -77,6 +78,7 @@ const Pages = () => {
           currencyRate={currencyRate}
           currencies={state.currencies}
           resultSum={state.resultSum}
+          baseCurrency={state.baseCurrency}
         />} />
       <Route path={PATH.exchangeRate} element={
         <ExchangeRate currencies={state.currencies}/>

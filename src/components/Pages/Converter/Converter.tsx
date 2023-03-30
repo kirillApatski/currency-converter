@@ -12,6 +12,7 @@ type ConverterPropsType = {
   currentCurrency: string
   currencyRate: number
   resultSum: number
+  baseCurrency: string
 }
 
 const Converter:FC<ConverterPropsType> = (
@@ -22,7 +23,8 @@ const Converter:FC<ConverterPropsType> = (
     currentCurrency,
     currencies,
     currencyRate,
-    resultSum
+    resultSum,
+    baseCurrency
   }
 ) => {
 
@@ -52,7 +54,9 @@ const Converter:FC<ConverterPropsType> = (
 
         <div className={styles.resultBox}>
           <h3>Получается :</h3>
-          <span>{resultSum.toFixed(4)} Бел. рублей</span>
+          <div>
+            {resultSum.toFixed(4)} : {baseCurrency}
+          </div>
         </div>
       </div>
     </div>
