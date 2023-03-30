@@ -28,10 +28,12 @@ const Pages = () => {
   const [inputValue, setInputValue] = useState('')
 
   let currencyRate: number = 0;
+  let curScale: number = 0;
 
   state.currencies.forEach((currency: CurrencyType) => {
     if (currency.Cur_Abbreviation === state.currentCurrency) {
       currencyRate = currency.Cur_OfficialRate
+      curScale = currency.Cur_Scale
     }
     return currency.Cur_OfficialRate;
   });
@@ -46,8 +48,8 @@ const Pages = () => {
 
   useEffect(() => {
     let finishSum = Number(inputValue) * currencyRate
-    if(state.currentCurrency === 'RUB'){
-      finishSum = finishSum / 100
+    if(state.currentCurrency === state.currentCurrency){
+      finishSum = finishSum / curScale
     }
     dispatchState(saveResultSum(finishSum))
   }, [currencyRate, inputValue])
@@ -58,8 +60,8 @@ const Pages = () => {
         currency.Cur_Abbreviation === 'PLN' ||
         currency.Cur_Abbreviation === 'RUB' ||
         currency.Cur_Abbreviation === 'EUR' ||
+        currency.Cur_Abbreviation === "UAH" ||
         currency.Cur_Abbreviation === 'USD')
-
       dispatchState(saveCurrencyData(resultData))
     })
   }, [])

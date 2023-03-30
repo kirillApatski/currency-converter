@@ -15,7 +15,7 @@ const ExchangeRate:FC<ExchangeRatePropsType> = ({currencies}) => {
         {
           currencies.map(currency => {
             return (
-              <li className={styles.rate}>1 {currency.Cur_Abbreviation} - {currency.Cur_OfficialRate}</li>
+              <li key={currency.Cur_ID} className={styles.rate}>1 {currency.Cur_Abbreviation} - {currency.Cur_OfficialRate}</li>
             )
           })
         }
