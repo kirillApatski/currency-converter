@@ -1,4 +1,3 @@
-
 export type CurrencyType = {
   Cur_ID: number;
   Date: string;
@@ -26,6 +25,11 @@ export const currencyReducer = (state: CurrencyState, action: ActionsType): Curr
         ...state,
         currentCurrency: action.currentCurrency
       }
+    case "CHANGE-BASE-CURRENCY":
+      return {
+        ...state,
+        baseCurrency: action.baseCurrency
+      }
     case 'SAVE-RESULT-SUM':
       return {
         ...state,
@@ -48,6 +52,12 @@ export const changeCurrentCurrency = (currentCurrency: string) => {
     currentCurrency
   } as const
 };
+export const changeBaseCurrency = (baseCurrency: string) => {
+  return {
+    type: 'CHANGE-BASE-CURRENCY',
+    baseCurrency
+  } as const
+};
 export const saveResultSum = (resultSum: number) => {
   return {
     type: 'SAVE-RESULT-SUM',
@@ -55,8 +65,9 @@ export const saveResultSum = (resultSum: number) => {
   } as const
 };
 
-type ActionsType = SaveCurrencyDataType | ChangeCurrentCurrencyType | SaveResultSum
+type ActionsType = SaveCurrencyDataType | ChangeCurrentCurrencyType | ChangeBaseCurrencyType | SaveResultSum
 
 export type SaveCurrencyDataType = ReturnType<typeof saveCurrencyData>
 export type ChangeCurrentCurrencyType = ReturnType<typeof changeCurrentCurrency>
+export type ChangeBaseCurrencyType = ReturnType<typeof changeBaseCurrency>
 export type SaveResultSum = ReturnType<typeof saveResultSum>

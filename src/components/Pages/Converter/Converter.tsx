@@ -7,6 +7,7 @@ import {
 type ConverterPropsType = {
   onChangeInputHandler: (event: ChangeEvent<HTMLInputElement>) => void
   onChangeSelectHandler: (event: ChangeEvent<HTMLSelectElement>) => void
+  onChangeSelectBaseHandler: (event: ChangeEvent<HTMLSelectElement>) => void
   currencies: Array<CurrencyType>
   inputValue: string
   currentCurrency: string
@@ -24,7 +25,8 @@ const Converter:FC<ConverterPropsType> = (
     currencies,
     currencyRate,
     resultSum,
-    baseCurrency
+    baseCurrency,
+    onChangeSelectBaseHandler,
   }
 ) => {
 
@@ -48,14 +50,31 @@ const Converter:FC<ConverterPropsType> = (
                 )
               })
             }
+            <option value="BYN">BYN</option>
           </select>
         </div>
+        <p>Выберите в какую валюту конвертировать</p>
+        <select value={baseCurrency} onChange={onChangeSelectBaseHandler}>
+          {
+            currencies.map(currency => {
+              return (
+                <option
+                  key={currency.Cur_ID + currency.Cur_Abbreviation}
+                  value={currency.Cur_Abbreviation}
+                >
+                  {currency.Cur_Abbreviation}
+                </option>
+              )
+            })
+          }
+          <option value="BYN">BYN</option>
+        </select>
         <p>Валютный курс: {currencyRate}</p>
 
         <div className={styles.resultBox}>
           <h3>Получается :</h3>
           <div>
-            {resultSum.toFixed(4)} : {baseCurrency}
+            {resultSum.toFixed(3)} : {baseCurrency}
           </div>
         </div>
       </div>
