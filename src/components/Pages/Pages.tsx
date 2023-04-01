@@ -87,7 +87,6 @@ const Pages = () => {
     dispatchState(changeBaseCurrency(event.currentTarget.value))
   }
   course = Number((currencyRate / currencyExchangeRate[state.baseCurrency] * 100 / baseCurScale[state.baseCurrency]).toFixed(4))
-  console.log(state.isLoaded)
   useEffect(() => {
     convertCurrency()
   }, [course, state.baseCurrency, inputValue, state.currentCurrency])
