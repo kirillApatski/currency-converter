@@ -11,6 +11,7 @@ export type CurrencyState = {
   currentCurrency: string
   resultSum: number
   baseCurrency: string
+  isLoaded: boolean
 };
 
 export const currencyReducer = (state: CurrencyState, action: ActionsType): CurrencyState => {
@@ -18,7 +19,7 @@ export const currencyReducer = (state: CurrencyState, action: ActionsType): Curr
     case 'SAVE-CURRENCY':
       return {
         ...state,
-        currencies: action.responseData
+        currencies: [...state.currencies, ...action.responseData]
       }
     case 'CHANGE-CURRENT-CURRENCY':
       return {
@@ -34,6 +35,11 @@ export const currencyReducer = (state: CurrencyState, action: ActionsType): Curr
       return {
         ...state,
         resultSum: action.resultSum
+      }
+    case 'TOGGLE-IS-LOADED':
+      return {
+        ...state,
+        isLoaded: action.isLoaded
       }
     default:
       return state;
@@ -64,10 +70,17 @@ export const saveResultSum = (resultSum: number) => {
     resultSum
   } as const
 };
+export const toggleIsLoaded = (isLoaded: boolean) => {
+  return {
+    type: 'TOGGLE-IS-LOADED',
+    isLoaded
+  } as const
+};
 
-type ActionsType = SaveCurrencyDataType | ChangeCurrentCurrencyType | ChangeBaseCurrencyType | SaveResultSum
+type ActionsType = SaveCurrencyDataType | ChangeCurrentCurrencyType | ChangeBaseCurrencyType | SaveResultSumType | ToggleIsLoadedType
 
 export type SaveCurrencyDataType = ReturnType<typeof saveCurrencyData>
 export type ChangeCurrentCurrencyType = ReturnType<typeof changeCurrentCurrency>
 export type ChangeBaseCurrencyType = ReturnType<typeof changeBaseCurrency>
-export type SaveResultSum = ReturnType<typeof saveResultSum>
+export type SaveResultSumType = ReturnType<typeof saveResultSum>
+export type ToggleIsLoadedType = ReturnType<typeof toggleIsLoaded>

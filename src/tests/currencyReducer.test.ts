@@ -22,7 +22,8 @@ beforeEach(() => {
     ],
     currentCurrency: 'USD',
     resultSum: 0,
-    baseCurrency: 'Белорусский рубль'
+    baseCurrency: 'Белорусский рубль',
+    isLoaded: false
   };
 });
 

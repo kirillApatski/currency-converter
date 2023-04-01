@@ -9,7 +9,7 @@ import {
   currencyReducer, CurrencyState,
   CurrencyType,
   saveCurrencyData,
-  saveResultSum
+  saveResultSum, toggleIsLoaded
 } from "../../redusers/currencyReducer";
 import {currencyAPI} from "../../api/currencyAPI";
 
@@ -31,7 +31,8 @@ const initialState: CurrencyState = {
   ],
   currentCurrency: 'USD',
   resultSum: 0,
-  baseCurrency: 'BYN'
+  baseCurrency: 'BYN',
+  isLoaded: true
 };
 
 let baseCurScale: any = {
@@ -63,7 +64,6 @@ const Pages = () => {
     currencyExchangeRate[currency.Cur_Abbreviation] = currency.Cur_OfficialRate
     return currency.Cur_OfficialRate;
   });
-  console.log(currencyRate)
   const convertCurrency = () => {
     let finishSum: number = 0;
     if (state.currentCurrency === state.baseCurrency) {
@@ -73,13 +73,10 @@ const Pages = () => {
         finishSum = Number(inputValue) * currencyRate / curScale;
         dispatchState(saveResultSum(Number(finishSum / currencyExchangeRate[state.baseCurrency]) * 100 / baseCurScale[state.baseCurrency]));
       } else {
-        dispatchState(saveResultSum((Number(inputValue) / currencyExchangeRate[state.baseCurrency]) / 100 * curScale));
-        console.log(currencyExchangeRate[state.baseCurrency])
-
+        dispatchState(saveResultSum((Number(inputValue) / currencyExchangeRate[state.baseCurrency]) * 100 / baseCurScale[state.baseCurrency]));
       }
     }
   }
-
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.currentTarget.value)
   }
@@ -90,11 +87,12 @@ const Pages = () => {
     dispatchState(changeBaseCurrency(event.currentTarget.value))
   }
   course = Number((currencyRate / currencyExchangeRate[state.baseCurrency] * 100 / baseCurScale[state.baseCurrency]).toFixed(4))
-
+  console.log(state.isLoaded)
   useEffect(() => {
     convertCurrency()
   }, [course, state.baseCurrency, inputValue, state.currentCurrency])
   useEffect(() => {
+    dispatchState(toggleIsLoaded(false))
     currencyAPI.getCurrency().then(res => {
       const resultData = res.data.filter((currency: CurrencyType) =>
         currency.Cur_Abbreviation === "UAH" ||
@@ -103,29 +101,32 @@ const Pages = () => {
         currency.Cur_Abbreviation === 'EUR' ||
         currency.Cur_Abbreviation === 'USD')
       dispatchState(saveCurrencyData(resultData))
-
+    }).finally(() => {
+      dispatchState(toggleIsLoaded(true))
     })
   }, [])
   return (
-    <Routes>
-      <Route path={"/"} element={<Navigate to={PATH.converter}/>}/>
-      <Route path={PATH.converter} element={
-        <Converter
-          onChangeInputHandler={onChangeInputHandler}
-          onChangeSelectHandler={onChangeSelectHandler}
-          inputValue={inputValue}
-          currentCurrency={state.currentCurrency}
-          currencyRate={course}
-          currencies={state.currencies}
-          resultSum={state.resultSum}
-          baseCurrency={state.baseCurrency}
-          onChangeSelectBaseHandler={onChangeSelectBaseHandler}
-        />}/>
-      <Route path={PATH.exchangeRate} element={
-        <ExchangeRate currencies={state.currencies}/>
-      }/>
-      <Route path={"*"} element={<PageNotFound/>}/>
-    </Routes>
+    <>
+      <Routes>
+        <Route path={"/"} element={<Navigate to={PATH.converter}/>}/>
+        <Route path={PATH.converter} element={
+          <Converter
+            onChangeInputHandler={onChangeInputHandler}
+            onChangeSelectHandler={onChangeSelectHandler}
+            inputValue={inputValue}
+            currentCurrency={state.currentCurrency}
+            currencyRate={course}
+            currencies={state.currencies}
+            resultSum={state.resultSum}
+            baseCurrency={state.baseCurrency}
+            onChangeSelectBaseHandler={onChangeSelectBaseHandler}
+          />}/>
+        <Route path={PATH.exchangeRate} element={
+          <ExchangeRate currencies={state.currencies}/>
+        }/>
+        <Route path={"*"} element={<PageNotFound/>}/>
+      </Routes>
+    </>
   );
 };
 

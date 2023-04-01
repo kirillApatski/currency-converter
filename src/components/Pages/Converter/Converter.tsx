@@ -26,7 +26,7 @@ const Converter:FC<ConverterPropsType> = (
     currencyRate,
     resultSum,
     baseCurrency,
-    onChangeSelectBaseHandler,
+    onChangeSelectBaseHandler
   }
 ) => {
 
@@ -50,7 +50,6 @@ const Converter:FC<ConverterPropsType> = (
                 )
               })
             }
-            <option value="BYN">BYN</option>
           </select>
         </div>
         <p>Выберите в какую валюту конвертировать</p>
@@ -67,7 +66,6 @@ const Converter:FC<ConverterPropsType> = (
               )
             })
           }
-          <option value="BYN">BYN</option>
         </select>
         <p>Валютный курс: {currencyRate}</p>
 
